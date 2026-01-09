@@ -24,6 +24,7 @@ def load_molecule_database(csv_path: str) -> pd.DataFrame:
     """Read CSV, clean data, calculate properties for each molecule"""
     df = pd.read_csv('original.csv', sep = ';', usecols = ['ChEMBL ID', 'Name', 'Synonyms', 'Molecular Weight','Polar Surface Area', 'Aromatic Rings', 'Heavy Atoms','Molecular Formula', 'Smiles'])
     df['Lipophilicity'] = df['Smiles'].apply(calculate_lipophilicity)
+    df.dropna(how='any', inplace=True)
     print(f"Loaded {len(df)} molecules")
     print(df.head())  # Show first 5 rows
     print(f"\nColumns: {list(df.columns)}")
@@ -47,7 +48,10 @@ def calculate_similarity_score(selected_properties, db_properties):
     # ensure selected_properties is a df, make into df
     if not isinstance(selected_properties, pd.DataFrame):
         selected_properties = pd.DataFrame([selected_properties])
-    selected_extracted = selected_properties[property_cols]
+
+    # make sure all expected columns exist
+    # fill missing with NaN so we can still run
+    selected_extracted = selected_properties.reindex(columns=property_cols)
 
     # normalize data frames
     scaler = StandardScaler()
@@ -93,9 +97,11 @@ def show_images(dataframe):
     df = dataframe
 
     # Second column (index 1)
-    for col in df.columns:
-        name = df[col][0] #find out what index the name is stored at
-        structure = df[col][1] #find out what index the structure is stored at
+    for idx, row in df.iterrows():
+        name = row.get('Name', f"molecule_{idx}") #find out what index the name is stored at
+        structure = row.get('Smiles', None)#find out what index the structure is stored at
+        if not isinstance(structure, str) or not structure.strip():
+            continue 
 
         mol = Chem.MolFromSmiles(structure)
 
