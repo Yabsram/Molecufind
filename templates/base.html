@@ -124,7 +124,7 @@
         </div>
       </div>
 
-      <button type="submit">Submit</button>
+      <button type="submit" id="search-btn">Submit</button>
     </form>
 
     {% if selected %}
@@ -268,7 +268,40 @@
         }
       });
     });
+
+    // Loading overlay functionality
+    document.addEventListener('DOMContentLoaded', () => {
+      const loadingOverlay = document.getElementById('loading-overlay');
+      const dots = document.getElementById('loading-dots');
+      const searchBtn = document.getElementById('search-btn');
+
+      let dotCount = 0;
+      let intervalId = null;
+
+      function startLoadingAnimation() {
+        if (intervalId) return;
+        intervalId = setInterval(() => {
+          dotCount = (dotCount + 1) % 4;
+          dots.textContent = '.'.repeat(dotCount);
+        }, 500);
+      }
+
+      searchBtn.addEventListener('click', () => {
+        loadingOverlay.style.display = 'flex';
+        startLoadingAnimation();
+      });
+    });
     
-    </script>
+  </script>
+
+    <div id="loading-overlay">
+      <div class="loading-content">
+        <img src="{{ url_for('static', filename='teamLogoTransparent.png') }}" alt="Logo" class="loading-logo" height="150px" width="150px">
+        <p class="loading-text">
+          Loading<span id="loading-dots">...</span>
+        </p>
+      </div>
+    </div>
+
   </body>
 </html>
