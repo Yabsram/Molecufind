@@ -144,14 +144,21 @@
         <h6 class="subheader">Top 20 Molecule Results</h6>
         <div class="card-grid">
           {% if results is not none %}
+            {% set total = results.shape[0] %}
             {% for _, molecule in results.iterrows() %}
-              <div class="card">
+              {% set t = loop.index0 / (total - 1) if total > 1 else 0 %}
+              {% set r = (0 + t * (255 - 0)) | round %}
+              {% set g = (155 + t * (255 - 155)) | round %}
+              {% set b = (206 + t * (255 - 206)) | round %}
+
+              <div class="card" style="background-color: rgb({{ r }}, {{ g }}, {{ b }});">
                 <img src="{{ url_for('static', filename='images/' + molecule['Name'] + '.png') }}"
-                     alt="{{ molecule['Name'] }} +  Image"
-                     width="150"
-                     height="150">
+                    alt="{{ molecule['Name'] }} Image"
+                    width="150"
+                    height="150">
                 <p>{{ molecule['Name'] }}</p>
-                <button type="button"
+                <p class="percent-match">{{ molecule['similarity_score'] }}</p>
+                <button type="button" 
                         class="info-btn"
                         data-name="{{ molecule['Name'] }}"
                         data-image="{{ url_for('static', filename='images/' + molecule['Name'] + '.png') }}"
@@ -164,7 +171,8 @@
             {% endfor %}
           {% endif %}
         </div>
-      </section>
+
+    </section>
 
       <!-- Popup -->
       <div id="popup" class="popup-modal">
