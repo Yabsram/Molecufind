@@ -82,11 +82,11 @@ def test_radar_chart():
     output_file = "radar_chart.png"
     plt.savefig(output_file, dpi=300, bbox_inches='tight')
     plt.close(fig)
-    
+
 if __name__ == "__main__":
     test_radar_chart()
     test_admet_model()
-    
+
 
 def calculate_lipophilicity(smiles: str) -> float:
     if not isinstance(smiles, str) or not smiles.strip():
@@ -183,8 +183,11 @@ def calculate_similarity_score(selected_properties, db_properties):
     # creates more separation between similar and different molecules
     similarity_scores = np.exp(-distances / 2)
 
+    # convert to percentage and round to 2 decimal places
+    similarity_percentages = np.round(similarity_scores * 100, 2)
+
     db_results = db_properties.copy()
-    db_results["similarity_score"] = similarity_scores
+    db_results["similarity_score"] = similarity_percentages
 
     return db_results
 
