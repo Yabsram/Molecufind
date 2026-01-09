@@ -37,7 +37,6 @@ def select_property():
             molecule_db = load_molecule_database("original.csv")
             results = chemistry.get_top_similar_molecules(molecule_db, selected, n=30)
             print(f"Generated {len(results)} results")  # Debug
-            chemistry.show_images(results)
             return render_template("base.html", selected=selected, results=results)
         else:
             print("No properties selected")  # Debug
@@ -52,4 +51,4 @@ def show_results():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8004)))
+    app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8005)))

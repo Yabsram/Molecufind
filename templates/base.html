@@ -17,11 +17,13 @@
 
   <body>
     <header>
-      <img src="{{ url_for("static", filename="favicon.svg") }}"
-           alt="Our Logo"
-           width="50"
-           height="50">
-      <h1>MolecuFind</h1>
+      <a href="{{ url_for('select_property') }}" class="header-link">
+        <img src="{{ url_for('static', filename='favicon.svg') }}"
+            alt="Our Logo"
+            width="50"
+            height="50">
+        <h1>MolecuFind</h1>
+      </a>
     </header>
 
     <hr class="divider">
@@ -155,7 +157,35 @@
             {% endfor %}
           {% endif %}
         </div>
-      </section>
+    </section>
+
+    <!-- Popup -->
+    <div id="popup" class="popup-modal">
+      <div class="popup-content">
+        <span id="close-popup">x</span>
+        <img id="popup-image" src="{{ url_for('static', filename='favicon.svg') }}" alt="Molecule Image" width="150" height="150">
+        <p id="popup-title">Name here</p>
+        <div class="comparison-chart">
+          <div class="comparison-column">
+              <p class="column-title">Inputted Values</p>
+              <ul class="inputted-info">
+                {% for key, value in selected.items() %}
+                  <li>{{ key }}: {{ value }}</li>
+                {% endfor %}
+              </ul>
+            </div>
+          <div class="comparison-column">
+              <p class="column-title">Actual Values</p>
+                <ul class="inputted-info">
+                {% for key, value in selected.items() %}
+                  <li>{{ key }}: {{ value }}</li>
+                {% endfor %}
+              </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
     {% endif %}
 
     <hr class="divider">
@@ -168,7 +198,8 @@
       <p>Made by Kinase.</p>
     </footer>
 
-      <script>
+    <script>
+    // Show/hide number input based on checkbox state
     document.querySelectorAll('.checkbox-group input[type="checkbox"]').forEach(function(checkbox) {
       checkbox.addEventListener('change', function() {
         const numberInput = this.closest('.checkbox-group').querySelector('.number-input');
@@ -180,6 +211,36 @@
         }
       });
     });
-      </script>
-    </body>
-  </html>
+
+    // Popup functionality
+    document.addEventListener('DOMContentLoaded', () => {
+      const popup = document.getElementById('popup');
+      const popupTitle = document.getElementById('popup-title');
+      const popupImage = document.getElementById('popup-image');
+      const closePopup = document.getElementById('close-popup');
+
+      document.querySelectorAll('.info-btn').forEach(button => {
+        button.addEventListener('click', () => {
+          const index = button.dataset.index;
+
+          popupTitle.textContent = `Molecule Name ${parseInt(index)+1}`;
+          popupImage.src = '{{ url_for("static", filename="favicon.svg") }}';
+
+          popup.style.display = 'flex';
+        });
+      });
+
+      closePopup.addEventListener('click', () => {
+        popup.style.display = 'none';
+      });
+
+      window.addEventListener('click', (e) => {
+        if (e.target === popup) {
+          popup.style.display = 'none';
+        }
+      });
+    });
+    
+    </script>
+  </body>
+</html>
