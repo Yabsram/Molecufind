@@ -32,10 +32,13 @@ def select_property():
                 # Only store if checkbox checked and convert to float
                 selected[display_name] = float(request.form.get(value_name, 0))
 
+        print(f"Form submitted! Selected: {selected}")  # Debug
         if selected:
             molecule_db = load_molecule_database("original.csv")
-            results = chemistry.get_top_similar_molecules(molecule_db, selected, n=30)
+            results = chemistry.get_top_similar_molecules(molecule_db, selected, n=20)
             return render_template("base.html", selected=selected, results=results)
+        else:
+            print("No properties selected")  # Debug
 
     return render_template("base.html", selected={}, results=None)
 
@@ -47,4 +50,4 @@ def show_results():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8004)))
+    app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8006)))
