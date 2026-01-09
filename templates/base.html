@@ -17,11 +17,13 @@
 
   <body>
     <header>
-      <img src="{{ url_for("static", filename="favicon.svg") }}"
-           alt="Our Logo"
-           width="50"
-           height="50">
-      <h1>MolecuFind</h1>
+      <a href="{{ url_for('select_property') }}" class="header-link">
+        <img src="{{ url_for('static', filename='favicon.svg') }}"
+            alt="Our Logo"
+            width="50"
+            height="50">
+        <h1>MolecuFind</h1>
+      </a>
     </header>
 
     <hr class="divider">
@@ -211,32 +213,34 @@
     });
 
     // Popup functionality
-    const popup = document.getElementById('popup');
-    const popupTitle = document.getElementById('popup-title');
-    const popupImage = document.getElementById('popup-image');
-    const closePopup = document.getElementById('close-popup');
+    document.addEventListener('DOMContentLoaded', () => {
+      const popup = document.getElementById('popup');
+      const popupTitle = document.getElementById('popup-title');
+      const popupImage = document.getElementById('popup-image');
+      const closePopup = document.getElementById('close-popup');
 
-    document.querySelectorAll('.info-btn').forEach(button => {
-      button.addEventListener('click', () => {
-        const index = button.dataset.index;
+      document.querySelectorAll('.info-btn').forEach(button => {
+        button.addEventListener('click', () => {
+          const index = button.dataset.index;
 
-        popupTitle.textContent = `Molecule Name ${parseInt(index)+1}`;
-        popupImage.src = '{{ url_for("static", filename="favicon.svg") }}';
+          popupTitle.textContent = `Molecule Name ${parseInt(index)+1}`;
+          popupImage.src = '{{ url_for("static", filename="favicon.svg") }}';
 
-        popup.style.display = 'flex';
+          popup.style.display = 'flex';
+        });
+      });
+
+      closePopup.addEventListener('click', () => {
+        popup.style.display = 'none';
+      });
+
+      window.addEventListener('click', (e) => {
+        if (e.target === popup) {
+          popup.style.display = 'none';
+        }
       });
     });
-
-    closePopup.addEventListener('click', () => {
-      popup.style.display = 'none';
-    });
-
-    window.addEventListener('click', (e) => {
-      if(e.target === popup){
-        popup.style.display = 'none';
-      }
-    });
-
+    
     </script>
   </body>
 </html>
