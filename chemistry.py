@@ -5,8 +5,87 @@ from rdkit.Chem import Crippen
 import pandas as pd
 import os, shutil
 import numpy as np
+from admet_ai import ADMETModel
 from sklearn.preprocessing import StandardScaler
+from math import pi
+import matplotlib.pyplot as plt
 
+model = ADMETModel()
+def test_admet_model():
+    test_smiles = ["CCOC(=O)C1(c2ccccc2)CCCN(C)CC1.O=C(O)CC(O)(CC(=O)O)C(=O)O", "CCOC(=O)C1(c2ccccc2)CCCN(C)CC1.O=C(O)CC(O)(CC(=O)O)C(=O)O"]
+    predictions = model.predict(smiles=test_smiles)
+    print(f"Number of properties predicted: {len(predictions.columns)}")
+    print(f"\nAvailable properties:\n{list(predictions.columns)}")
+    print(f"\nPredictions:\n{predictions}")
+    return predictions
+
+def plot_admet_radar_clean(smiles: str):
+    predictions = model.predict(smiles=[smiles])
+    
+    print(f"\n\nType: {type(predictions)}")
+    print(f"\nShape: {predictions.shape}")
+    print(f"\nContent check: {not predictions.empty}")
+    if hasattr(predictions, 'head'):
+        print(f"\nContent Head:\n{predictions.head()}")
+    else:
+        print(f"\nContent: {predictions}")
+
+    if hasattr(predictions, 'keys'):
+        print(f"Keys: {list(predictions.keys())}")
+        
+    properties = {
+        'hERG Safe': 100 - (predictions['hERG'].values[0]*100),
+        'Lipinski': predictions['Lipinski'].values[0],
+        'Soluble': (predictions['Solubility_AqSolDB'].values[0]+5)*20,
+        'Non-Toxic': 100 - (predictions['AMES'].values[0] * 100),
+        'Blood Brain Barrier Safe': 100 - (predictions['BBB_Martins'].values[0]*100),
+
+    }
+    
+    categories = list(properties.keys())
+    values = list(properties.values())
+    num_vars = len(categories)
+    #compute angle for each axis
+    angles = [n / float(num_vars)*2*pi for n in range(num_vars)]
+    values += values[:1]
+    angles += angles[:1]
+    
+    # Create plot
+    fig, ax = plt.subplots(figsize=(6, 6), subplot_kw=dict(projection='polar'))
+    fig.patch.set_facecolor('white')
+    ax.set_facecolor('white')
+    
+    # Plot data with red color matching the image
+    ax.plot(angles, values, 'o-', linewidth=2.5, color='#E74C3C', markersize=8)
+    ax.fill(angles, values, alpha=0.3, color='#E74C3C')
+    
+    # Set the labels
+    ax.set_xticks(angles[:-1])
+    ax.set_xticklabels(categories, size=11, weight='bold')
+    
+    # Set y-axis (radial) limits and labels
+    ax.set_ylim(0, 100)
+    ax.set_yticks([0, 25, 50, 75, 100])
+    ax.set_yticklabels(['0', '25', '50', '75', '100'], size=9, color='gray')
+    
+    # Customize grid
+    ax.grid(True, linewidth=0.5, color='gray', alpha=0.3)
+    ax.spines['polar'].set_color('gray')
+    ax.spines['polar'].set_linewidth(1.5)
+    plt.tight_layout()
+    return fig
+
+def test_radar_chart():
+    smile = "CC[C@H]1C[C@H]2[C@@H]3CCC4=CC(=O)CC[C@@H]4[C@H]3CC[C@]2(C)[C@H]1O"
+    fig = plot_admet_radar_clean(smile)
+    output_file = "radar_chart.png"
+    plt.savefig(output_file, dpi=300, bbox_inches='tight')
+    plt.close(fig)
+    
+if __name__ == "__main__":
+    test_radar_chart()
+    test_admet_model()
+    
 
 def calculate_lipophilicity(smiles: str) -> float:
     if not isinstance(smiles, str) or not smiles.strip():

@@ -18,18 +18,17 @@
   <body>
     <header>
       <a href="{{ url_for('select_property') }}" class="header-link">
-        <img src="{{ url_for('static', filename='favicon.svg') }}"
+        <img src="{{ url_for('static', filename='teamLogo.png') }}"
             alt="Our Logo"
-            width="50"
-            height="50">
+            width="60"
+            height="60">
         <h1>MolecuFind</h1>
       </a>
     </header>
 
     <hr class="divider">
 
-    {% block content %}
-    {% endblock content %}
+    <h6 class="subheader"> Select your Properties </h6>
 
     <form method="post"
           action="{{ url_for('select_property') }}"
@@ -142,7 +141,7 @@
       <hr class="divider">
 
       <section class="molecule-cards">
-        <h6 class="subheader">Top 30 Molecule Results</h6>
+        <h6 class="subheader">Top 20 Molecule Results</h6>
         <div class="card-grid">
           {% if results is not none %}
             {% for _, molecule in results.iterrows() %}
@@ -198,11 +197,14 @@
     <hr class="divider">
 
     <footer>
-      <img src="{{ url_for("static", filename="favicon.svg") }}"
+      <img src="{{ url_for("static", filename="teamLogo.png") }}"
            alt="Our Logo"
-           width="50"
-           height="50">
-      <p>Made by Kinase.</p>
+           width="60"
+           height="60">
+      <div>
+        <p>Made by Team Kinase</p>
+        <p>Tiffany, Thuy Vi, Nathalie, and Yabby 💙</p>
+      </div>
     </footer>
 
     <script>
