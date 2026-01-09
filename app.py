@@ -1,4 +1,8 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template
+import pandas as pd, os, shutil
+from rdkit import Chem
+from rdkit.Chem import Draw
+import chemistry
 from chemistry import load_molecule_database
 import os
 
@@ -29,5 +33,13 @@ def select_property():
 
     return render_template("base.html", selected=selected)
 
+@app.route("/results", methods=["POST"])
+def show_results():
+    #display top results 
+   return render_template(
+        "base.html"
+    )
+
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8004)))
+
