@@ -21,16 +21,82 @@
 
   <body>
     <header>
-      <img src="{{ url_for('static', filename='favicon.svg') }}" alt="Our Logo">
+      <img src="{{ url_for('static', filename='favicon.svg') }}" alt="Our Logo" width="50" height="50">
       <h1>MolecuFind</h1>
     </header>
 
+    <hr class="divider">
+
     {% block content %}
-    {% endblock %}
+    {% endblock content %}
     
+    <form method="post" action="{{ url_for('show_results') }}" class="select-form">
+      <div class="checkbox-group">
+        <label>
+          <input type="checkbox" name="amw" value="1">
+          Atomic Molecular Weight (AMW)
+        </label>
+        <div class="number-input">
+          <input type="number" name="amw_value" placeholder="Enter a value" step="0.01">
+        </div>
+      </div>
+      <div class="checkbox-group">
+        <label>
+          <input type="checkbox" name="Crippen logP" value="2">
+          Crippen logP
+        </label>
+        <div class="number-input">
+          <input type="number" name="Clogp_value" placeholder="Enter a value" step="0.01">
+        </div>
+      </div>
+      <div class="checkbox-group">
+        <label>
+          <input type="checkbox" name="Topological Polar Surface Area" value="3">
+          Topological Polar Surface Area (TPSA)
+        </label>
+        <div class="number-input">
+          <input type="number" name="TPSA" placeholder="Enter a value" step="0.01">
+        </div>
+      </div>
+      <div class="checkbox-group">
+        <label>
+          <input type="checkbox" name="Number of Heavy Atoms" value="4">
+          Number of Heavy Atoms
+        </label>
+        <div class="number-input">
+          <input type="number" name="numHeavyAtoms_value" placeholder="Enter a value" step="0.01">
+        </div>
+      </div>
+      <div class="checkbox-group">
+        <label>
+          <input type="checkbox" name="numAromaticRings " value="5">
+          Number of Aromatic Rings
+        </label>
+        <div class="number-input">
+          <input type="number" name="numaromaticrings_value" placeholder="Enter a value" step="0.01">
+        </div>
+      </div>
+
+      <button type="submit">Submit</button>
+    </form>
+
     <footer>
-      <img src="{{ url_for('static', filename='favicon.svg') }}" alt="Our Logo">
+      <img src="{{ url_for('static', filename='favicon.svg') }}" alt="Our Logo" width="50" height="50">
       <p>Made by Kinase.</p>
     </footer>
+
+    <script>
+    document.querySelectorAll('.checkbox-group input[type="checkbox"]').forEach(function(checkbox) {
+      checkbox.addEventListener('change', function() {
+        const numberInput = this.closest('.checkbox-group').querySelector('.number-input');
+        if (this.checked) {
+          numberInput.style.display = 'block';
+          numberInput.querySelector('input').focus();
+        } else {
+          numberInput.style.display = 'none';
+        }
+      });
+    });
+    </script>
   </body>
 </html>
