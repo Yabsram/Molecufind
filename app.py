@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import pandas as pd, os, shutil
 from rdkit import Chem
 from rdkit.Chem import Draw
