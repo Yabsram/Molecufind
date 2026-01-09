@@ -141,17 +141,27 @@
       <hr class="divider">
 
       <section class="molecule-cards">
-        <h6 class="subheader">Top 30 Molecule Results</h6>
+        <h6 class="subheader">Top 20 Molecule Results</h6>
         <div class="card-grid">
           {% if results is not none %}
             {% for _, molecule in results.iterrows() %}
               <div class="card">
-                <img src="{{ url_for("static", filename="favicon.svg") }}"
-                     alt="Molecule Image"
+                <img src="{{ url_for("static", filename="images/" + molecule['Name'] + ".png") }}"
+                     alt="{{ molecule['Name'] }} +  Image"
                      width="150"
                      height="150">
                 <p>{{ molecule['Name'] }}</p>
-                <button type="button" class="info-btn">More Info</button>
+                <button type="button" 
+                        class="info-btn"
+                        data-name="{{ molecule['Name'] }}"
+                        data-image="{{ url_for('static', filename='images/' + molecule['Name'] + '.png') }}"
+                        data-mw="{{ molecule['Molecular Weight'] }}"
+                        data-logp="{{ molecule['Lipophilicity'] }}"
+                        data-tpsa="{{ molecule['Polar Surface Area'] }}"
+                        data-heavy="{{ molecule['Heavy Atoms'] }}"
+                        data-aromatic="{{ molecule['Aromatic Rings'] }}">
+                  More Info
+                </button>
               </div>
             {% endfor %}
           {% endif %}
@@ -175,10 +185,7 @@
             </div>
           <div class="comparison-column">
               <p class="column-title">Actual Values</p>
-                <ul class="inputted-info">
-                {% for key, value in selected.items() %}
-                  <li>{{ key }}: {{ value }}</li>
-                {% endfor %}
+                <ul class="inputted-info" id="actual-values">
               </ul>
           </div>
         </div>
@@ -220,13 +227,32 @@
       const popupTitle = document.getElementById('popup-title');
       const popupImage = document.getElementById('popup-image');
       const closePopup = document.getElementById('close-popup');
+      const actualValuesList = document.getElementById('actual-values');
 
       document.querySelectorAll('.info-btn').forEach(button => {
         button.addEventListener('click', () => {
-          const index = button.dataset.index;
+          // Get data from button attributes
+          const name = button.dataset.name;
+          const imageSrc = button.dataset.image;
+          const mw = button.dataset.mw;
+          const logp = button.dataset.logp;
+          const tpsa = button.dataset.tpsa;
+          const heavy = button.dataset.heavy;
+          const aromatic = button.dataset.aromatic;
 
-          popupTitle.textContent = `Molecule Name ${parseInt(index)+1}`;
-          popupImage.src = '{{ url_for("static", filename="favicon.svg") }}';
+          // Update popup content
+          popupTitle.textContent = name;
+          popupImage.src = imageSrc;
+          popupImage.alt = name + ' Image';
+
+          // Build the actual values list
+          actualValuesList.innerHTML = `
+            <li>Molecular Weight: ${mw}</li>
+            <li>Lipophilicity: ${logp}</li>
+            <li>Polar Surface Area: ${tpsa}</li>
+            <li>Heavy Atoms: ${heavy}</li>
+            <li>Aromatic Rings: ${aromatic}</li>
+          `;
 
           popup.style.display = 'flex';
         });
@@ -270,7 +296,7 @@
 
     <div id="loading-overlay">
       <div class="loading-content">
-        <img src="{{ url_for('static', filename='teamLogo.png') }}" alt="Logo" class="loading-logo" height="50px" width="50px">
+        <img src="{{ url_for('static', filename='teamLogoTransparent.png') }}" alt="Logo" class="loading-logo" height="75px" width="75px">
         <p class="loading-text">
           Loading<span id="loading-dots">...</span>
         </p>
