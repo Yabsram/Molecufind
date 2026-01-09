@@ -7,6 +7,7 @@ molecule_db = load_molecule_database("original.csv")
 
 @app.route("/", methods=["GET"])
 def select_property():
+    
     return render_template("base.html")
 
 @app.route("/results", methods=["POST"])
