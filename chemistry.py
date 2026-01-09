@@ -17,7 +17,15 @@ def test_admet_model():
     print(f"\nPredictions:\n{predictions}")
     return predictions
 
-
+def plot_admet_radar_clean(smiles: str):
+    predictions = model.predict(smiles=[smiles])
+    properties = {
+        'Blood Brain Barrier Safe': 100 - (predictions['BBB_Martins'].values[0]*100),
+        'herg Safe': 100 - (predictions['hERG'].values[0]*100),
+        'Bioavailable': predictions['Caco-2'].values[0],
+        'Soluble': (predictions['Solubility'].values[0]+5)*20,
+        'Non-Toxic': 100 - (predictions['AMES'].values[0] * 100),
+    }
 if __name__ == "__main__":
     test_admet_model()
     
