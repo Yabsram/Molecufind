@@ -93,9 +93,11 @@ def show_images(dataframe):
     df = dataframe
 
     # Second column (index 1)
-    for col in df.columns:
-        name = df[col][0] #find out what index the name is stored at
-        structure = df[col][1] #find out what index the structure is stored at
+    for idx, row in df.iterrows():
+        name = row.get('Name', f"molecule_{idx}") #find out what index the name is stored at
+        structure = row.get('Smiles', None)#find out what index the structure is stored at
+        if not isinstance(structure, str) or not structure.strip():
+            continue 
 
         mol = Chem.MolFromSmiles(structure)
 
