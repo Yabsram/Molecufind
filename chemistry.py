@@ -1,19 +1,37 @@
 from rdkit import Chem
 from rdkit.Chem import Draw
 from rdkit.DataStructs.cDataStructs import ExplicitBitVect
+from rdkit.Chem import Crippen 
+import pandas as pd
+import numpy as np
 
-# Data loading & preparation (run once at module load or server startup)
+
+def calculate_lipophilicity(smiles: str) -> float:
+    if not isinstance(smiles, str) or not smiles.strip():
+        return np.nan
+    m = Chem.MolFromSmiles(smiles)
+    if m is None:
+        return np.nan
+    try:
+        return float(Crippen.MolLogP(m))
+    except Exception:
+        return np.nan
+    
+#Data loading and conversion to dataframe
 def load_molecule_database(csv_path: str) -> pd.DataFrame:
     """Read CSV, clean data, calculate properties for each molecule"""
-    # Read CSV
-    # Clean up values
-    # Calculate properties
-    # Return dataframe
+    df = pd.read_csv('original.csv', sep = ';', usecols = ['ChEMBL ID', 'Name', 'Synonyms', 'Molecular Weight','Polar Surface Area', 'Aromatic Rings', 'Heavy Atoms','Molecular Formula', 'Smiles'])
+    df['Lipophilicity'] = df['Smiles'].apply(calculate_lipophilicity)
+    print(f"Loaded {len(df)} molecules")
+    print(df.head())  # Show first 5 rows
+    print(f"\nColumns: {list(df.columns)}")
+    print(f"Shape: {df.shape}")
+    return df
 
 
 def calculate_properties(smiles: str) -> dict:
     """Calculate molecular properties (solubility, toxicity, etc.)"""
-    # Returns dict like {'soluble': True, 'toxic': False, 'mw': 234.5, ...}
+    
 
 
 def calculate_similarity_score(selected_properties: dict, property_row: dict) -> float:
@@ -22,8 +40,7 @@ def calculate_similarity_score(selected_properties: dict, property_row: dict) ->
 
 
 def get_top_similar_molecules(
-    dataframe: pd.DataFrame, selected_properties: dict, top_n: int = 30
-) -> pd.DataFrame:
+    dataframe: pd.DataFrame, selected_properties: dict, top_n: int = 30) -> pd.DataFrame:
     """Filter and rank molecules by similarity to selected properties"""
     # Apply calculate_similarity_score to each row
     # Sort by score

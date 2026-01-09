@@ -1,4 +1,5 @@
 from flask import Flask, render_template
+from chemistry import load_molecule_database
 
 app = Flask(__name__)
 
