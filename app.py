@@ -37,7 +37,7 @@ def select_property():
             results = chemistry.get_top_similar_molecules(molecule_db, selected, n=30)
             return render_template("base.html", selected=selected, results=results)
 
-    return render_template("base.html", selected=None)
+    return render_template("base.html", selected={}, results=None)
 
 
 @app.route("/results", methods=["POST"])
