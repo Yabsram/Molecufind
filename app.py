@@ -35,6 +35,7 @@ def select_property():
         if selected:
             molecule_db = load_molecule_database("original.csv")
             results = chemistry.get_top_similar_molecules(molecule_db, selected, n=30)
+            chemistry.show_images(results)
             return render_template("base.html", selected=selected, results=results)
 
     return render_template("base.html", selected={}, results=None)

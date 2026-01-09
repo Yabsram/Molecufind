@@ -145,8 +145,8 @@
           {% if results is not none %}
             {% for _, molecule in results.iterrows() %}
               <div class="card">
-                <img src="{{ url_for("static", filename="favicon.svg") }}"
-                     alt="Molecule Image"
+                <img src="{{ url_for("static", filename="images/" + molecule['Name'] + ".png") }}"
+                     alt="{{ molecule['Name'] }} +  Image"
                      width="150"
                      height="150">
                 <p>{{ molecule['Name'] }}</p>

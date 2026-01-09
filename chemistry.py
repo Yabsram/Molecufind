@@ -85,7 +85,7 @@ def get_top_similar_molecules(db_properties, selected_properties, n):
     return sorted_top_results.head(n) 
 
 def show_images(dataframe):
-    folder_path = "images"
+    folder_path = "static/images"
     if os.path.exists(folder_path):
         shutil.rmtree(folder_path)
         os.makedirs(folder_path)
