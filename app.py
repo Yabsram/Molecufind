@@ -27,7 +27,7 @@ def select_property():
                 # Only store if checkbox checked
                 selected[display_name] = request.form.get(value_name, "")
 
-    return render_template("selection.html", selected=selected)
+    return render_template("base.html", selected=selected)
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8004)))

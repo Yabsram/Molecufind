@@ -13,22 +13,23 @@
       {% endblock title %}
 
     </title>
-    <link rel="icon"
-          href='{{ url_for("static", filename="favicon.svg") }}'
-          sizes="any">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   </head>
 
   <body>
     <header>
-      <img src="{{ url_for('static', filename='favicon.svg') }}" alt="Our Logo" width="50" height="50">
-      <h1>MolecuFind</h1>
+      <a href="{{ url_for('select_property') }}" class="header-link">
+        <img src="{{ url_for('static', filename='favicon.svg') }}"
+          alt="Our Logo"
+          width="50"
+          height="50">
+        <h1>MolecuFind</h1>
+      </a>
     </header>
 
     <hr class="divider">
 
-    {% block content %}
-    {% endblock content %}
+    <h6 class="subheader"> Select your Properties </h6>
     
     <form method="post" action="{{ url_for('select_property') }}" class="select-form">
 
