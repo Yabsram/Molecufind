@@ -40,7 +40,6 @@ def plot_admet_radar_clean(smiles: str):
         'Soluble': (predictions['Solubility_AqSolDB'].values[0]+5)*20,
         'Non-Toxic': 100 - (predictions['AMES'].values[0] * 100),
         'Blood Brain Barrier Safe': 100 - (predictions['BBB_Martins'].values[0]*100),
-
     }
     
     categories = list(properties.keys())
@@ -56,11 +55,8 @@ def plot_admet_radar_clean(smiles: str):
     fig.patch.set_facecolor('white')
     ax.set_facecolor('white')
     
-    # Plot data with red color matching the image
     ax.plot(angles, values, 'o-', linewidth=2.5, color='#E74C3C', markersize=8)
     ax.fill(angles, values, alpha=0.3, color='#E74C3C')
-    
-    # Set the labels
     ax.set_xticks(angles[:-1])
     ax.set_xticklabels(categories, size=11, weight='bold')
     
@@ -69,12 +65,23 @@ def plot_admet_radar_clean(smiles: str):
     ax.set_yticks([0, 25, 50, 75, 100])
     ax.set_yticklabels(['0', '25', '50', '75', '100'], size=9, color='gray')
     
-    # Customize grid
     ax.grid(True, linewidth=0.5, color='gray', alpha=0.3)
     ax.spines['polar'].set_color('gray')
     ax.spines['polar'].set_linewidth(1.5)
     plt.tight_layout()
     return fig
+
+def save_radar_chart(smiles: str, name: str, output_folder: str = "static/images"):
+    """Generate and save radar chart for a molecule."""
+    try:
+        fig = plot_admet_radar_clean(smiles)
+        if not os.path.exists(output_folder):
+            os.makedirs(output_folder)
+        output_file = os.path.join(output_folder, f"radar_{name}.png")
+        plt.savefig(output_file, dpi=150, bbox_inches='tight')
+        plt.close(fig)
+    except Exception as e:
+        print(f"Error generating radar chart for {name}: {e}")
 
 def test_radar_chart():
     smile = "CC[C@H]1C[C@H]2[C@@H]3CCC4=CC(=O)CC[C@@H]4[C@H]3CC[C@]2(C)[C@H]1O"
@@ -82,11 +89,11 @@ def test_radar_chart():
     output_file = "radar_chart.png"
     plt.savefig(output_file, dpi=300, bbox_inches='tight')
     plt.close(fig)
-
-if __name__ == "__main__":
-    test_radar_chart()
-    test_admet_model()
-
+    
+# if __name__ == "__main__":
+#     test_radar_chart()
+#     test_admet_model()
+    
 
 def calculate_lipophilicity(smiles: str) -> float:
     if not isinstance(smiles, str) or not smiles.strip():
@@ -229,9 +236,12 @@ def show_images(dataframe):
 
         mol = Chem.MolFromSmiles(structure)
 
-        # Save to file
+        # Save molecule structure image to file
         filename = name + ".png"
         img = Draw.MolToImage(mol)
         filepath = os.path.join(folder_path, filename)
         img.save(filepath)
+        
+        # Generate and save radar chart
+        save_radar_chart(structure, name, folder_path)
     return

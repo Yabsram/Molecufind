@@ -19,16 +19,16 @@
     <header>
       <a href="{{ url_for('select_property') }}" class="header-link">
         <img src="{{ url_for('static', filename='teamLogo.png') }}"
-            alt="Our Logo"
-            width="60"
-            height="60">
+             alt="Our Logo"
+             width="60"
+             height="60">
         <h1>MolecuFind</h1>
       </a>
     </header>
 
     <hr class="divider">
 
-    <h6 class="subheader"> Select your Properties </h6>
+    <h6 class="subheader">Select your Properties</h6>
 
     <form method="post"
           action="{{ url_for('select_property') }}"
@@ -166,9 +166,7 @@
                         data-logp="{{ molecule['Lipophilicity'] }}"
                         data-tpsa="{{ molecule['Polar Surface Area'] }}"
                         data-heavy="{{ molecule['Heavy Atoms'] }}"
-                        data-aromatic="{{ molecule['Aromatic Rings'] }}">
-                  More Info
-                </button>
+                        data-aromatic="{{ molecule['Aromatic Rings'] }}">More Info</button>
               </div>
             {% endfor %}
           {% endif %}
@@ -176,36 +174,38 @@
 
     </section>
 
-    <!-- Popup -->
-    <div id="popup" class="popup-modal">
-      <div class="popup-content">
-        <span id="close-popup">x</span>
-        <img id="popup-image" src="{{ url_for('static', filename='favicon.svg') }}" alt="Molecule Image" width="150" height="150">
-        <p id="popup-title">Name here</p>
-        <div class="comparison-chart">
-          <div class="comparison-column">
+      <!-- Popup -->
+      <div id="popup" class="popup-modal">
+        <div class="popup-content">
+          <span id="close-popup">x</span>
+          <p id="popup-title">Name here</p>
+          <img id="radar-chart"
+               src="{{ url_for('static', filename='favicon.svg') }}"
+               alt="ADMET Radar Chart"
+               style="max-width: 300px;
+                      height: auto">
+          <div class="comparison-chart">
+            <div class="comparison-column">
               <p class="column-title">Inputted Values</p>
               <ul class="inputted-info">
-                {% for key, value in selected.items() %}
-                  <li>{{ key }}: {{ value }}</li>
-                {% endfor %}
+                {% for key, value in selected.items() %}<li>{{ key }}: {{ value }}</li>{% endfor %}
               </ul>
             </div>
-          <div class="comparison-column">
+            <div class="comparison-column">
               <p class="column-title">Actual Values</p>
-                <ul class="inputted-info" id="actual-values">
+              <ul class="inputted-info" id="actual-values">
               </ul>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
     {% endif %}
 
     <hr class="divider">
 
     <footer>
-      <img src="{{ url_for("static", filename="teamLogo.png") }}"
+      <img src="{{ url_for('static', filename='teamLogo.png') }}"
            alt="Our Logo"
            width="60"
            height="60">
@@ -233,7 +233,7 @@
     document.addEventListener('DOMContentLoaded', () => {
       const popup = document.getElementById('popup');
       const popupTitle = document.getElementById('popup-title');
-      const popupImage = document.getElementById('popup-image');
+      const radarChart = document.getElementById('radar-chart');
       const closePopup = document.getElementById('close-popup');
       const actualValuesList = document.getElementById('actual-values');
 
@@ -250,8 +250,8 @@
 
           // Update popup content
           popupTitle.textContent = name;
-          popupImage.src = imageSrc;
-          popupImage.alt = name + ' Image';
+          radarChart.src = `static/images/radar_${name}.png`;
+          radarChart.alt = name + ' ADMET Radar Chart';
 
           // Build the actual values list
           actualValuesList.innerHTML = `
@@ -300,11 +300,15 @@
       });
     });
     
-  </script>
+    </script>
 
     <div id="loading-overlay">
       <div class="loading-content">
-        <img src="{{ url_for('static', filename='teamLogoTransparent.png') }}" alt="Logo" class="loading-logo" height="150px" width="150px">
+        <img src="{{ url_for('static', filename='teamLogoTransparent.png') }}"
+             alt="Logo"
+             class="loading-logo"
+             height="150px"
+             width="150px">
         <p class="loading-text">
           Loading<span id="loading-dots">...</span>
         </p>
