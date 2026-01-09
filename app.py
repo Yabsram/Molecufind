@@ -32,10 +32,14 @@ def select_property():
                 # Only store if checkbox checked and convert to float
                 selected[display_name] = float(request.form.get(value_name, 0))
 
+        print(f"Form submitted! Selected: {selected}")  # Debug
         if selected:
             molecule_db = load_molecule_database("original.csv")
             results = chemistry.get_top_similar_molecules(molecule_db, selected, n=30)
+            print(f"Generated {len(results)} results")  # Debug
             return render_template("base.html", selected=selected, results=results)
+        else:
+            print("No properties selected")  # Debug
 
     return render_template("base.html", selected={}, results=None)
 
