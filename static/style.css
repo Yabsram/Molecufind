@@ -119,13 +119,13 @@ button[type="submit"] {
 }
 
 .loading-logo {
-  width: 120px;
+  width: 200px;
   height: auto;
   margin-bottom: 16px;
 }
 
 .loading-text {
-  font-size: 22px;
+  font-size: 40px;
   font-weight: bold;
 }
 
