@@ -3,8 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-          content="Kinase Schrodinger Stack the Future 2026">
+    <meta name="description" content="Kinase Schrodinger Stack the Future 2026">
     <meta name="keywords" content="hackathon schrodinger">
     <title>
 
@@ -18,115 +17,158 @@
 
   <body>
     <header>
-      <a href="{{ url_for('select_property') }}" class="header-link">
-        <img src="{{ url_for('static', filename='favicon.svg') }}"
-          alt="Our Logo"
-          width="50"
-          height="50">
-        <h1>MolecuFind</h1>
-      </a>
+      <img src="{{ url_for("static", filename="favicon.svg") }}"
+           alt="Our Logo"
+           width="50"
+           height="50">
+      <h1>MolecuFind</h1>
     </header>
 
     <hr class="divider">
 
-    <h6 class="subheader"> Select your Properties </h6>
-    
-    <form method="post" action="{{ url_for('select_property') }}" class="select-form">
+    {% block content %}
+    {% endblock content %}
+
+    <form method="post"
+          action="{{ url_for('select_property') }}"
+          class="select-form">
 
       <!-- AMW -->
-      <div class="checkbox-group {% if selected.get('AMW') %}checked{% endif %}">
+      <div class="checkbox-group {% if selected.get('Molecular Weight') %}checked{% endif %}">
         <label>
-          <input type="checkbox" name="amw" value="1" {% if selected.get('AMW') %}checked{% endif %}>
+          <input type="checkbox"
+                 name="amw"
+                 value="1"
+                 {% if selected.get('Molecular Weight') %}checked{% endif %}>
           Atomic Molecular Weight (AMW)
         </label>
         <div class="number-input">
-          <input type="number" name="amw_value" placeholder="Enter a value" step="0.01" value="{{ selected.get('AMW', '') }}">
+          <input type="number"
+                 name="amw_value"
+                 placeholder="Enter a value"
+                 step="0.01"
+                 value="{{ selected.get('Molecular Weight', '') }}">
         </div>
       </div>
 
       <!-- Crippen logP -->
-      <div class="checkbox-group {% if selected.get('Crippen logP') %}checked{% endif %}">
+      <div class="checkbox-group {% if selected.get('Lipophilicity') %}checked{% endif %}">
         <label>
-          <input type="checkbox" name="clogp" value="2" {% if selected.get('Crippen logP') %}checked{% endif %}>
+          <input type="checkbox"
+                 name="clogp"
+                 value="2"
+                 {% if selected.get('Lipophilicity') %}checked{% endif %}>
           Crippen logP
         </label>
         <div class="number-input">
-          <input type="number" name="clogp_value" placeholder="Enter a value" step="0.01" value="{{ selected.get('Crippen logP', '') }}">
+          <input type="number"
+                 name="clogp_value"
+                 placeholder="Enter a value"
+                 step="0.01"
+                 value="{{ selected.get('Lipophilicity', '') }}">
         </div>
       </div>
 
       <!-- TPSA -->
-      <div class="checkbox-group {% if selected.get('TPSA') %}checked{% endif %}">
+      <div class="checkbox-group {% if selected.get('Polar Surface Area') %}checked{% endif %}">
         <label>
-          <input type="checkbox" name="tpsa" value="3" {% if selected.get('TPSA') %}checked{% endif %}>
+          <input type="checkbox"
+                 name="tpsa"
+                 value="3"
+                 {% if selected.get('Polar Surface Area') %}checked{% endif %}>
           Topological Polar Surface Area (TPSA)
         </label>
         <div class="number-input">
-          <input type="number" name="tpsa_value" placeholder="Enter a value" step="0.01" value="{{ selected.get('TPSA', '') }}">
+          <input type="number"
+                 name="tpsa_value"
+                 placeholder="Enter a value"
+                 step="0.01"
+                 value="{{ selected.get('Polar Surface Area', '') }}">
         </div>
       </div>
 
       <!-- Number of Heavy Atoms -->
-      <div class="checkbox-group {% if selected.get('Number of Heavy Atoms') %}checked{% endif %}">
+      <div class="checkbox-group {% if selected.get('Heavy Atoms') %}checked{% endif %}">
         <label>
-          <input type="checkbox" name="numHeavyAtoms" value="4" {% if selected.get('Number of Heavy Atoms') %}checked{% endif %}>
+          <input type="checkbox"
+                 name="numHeavyAtoms"
+                 value="4"
+                 {% if selected.get('Heavy Atoms') %}checked{% endif %}>
           Number of Heavy Atoms
         </label>
         <div class="number-input">
-          <input type="number" name="numHeavyAtoms_value" placeholder="Enter a value" step="0.01" value="{{ selected.get('Number of Heavy Atoms', '') }}">
+          <input type="number"
+                 name="numHeavyAtoms_value"
+                 placeholder="Enter a value"
+                 step="0.01"
+                 value="{{ selected.get('Heavy Atoms', '') }}">
         </div>
       </div>
 
       <!-- Number of Aromatic Rings -->
-      <div class="checkbox-group {% if selected.get('Number of Aromatic Rings') %}checked{% endif %}">
+      <div class="checkbox-group {% if selected.get('Aromatic Rings') %}checked{% endif %}">
         <label>
-          <input type="checkbox" name="numAromaticRings" value="5" {% if selected.get('Number of Aromatic Rings') %}checked{% endif %}>
+          <input type="checkbox"
+                 name="numAromaticRings"
+                 value="5"
+                 {% if selected.get('Aromatic Rings') %}checked{% endif %}>
           Number of Aromatic Rings
         </label>
         <div class="number-input">
-          <input type="number" name="numaromaticrings_value" placeholder="Enter a value" step="0.01" value="{{ selected.get('Number of Aromatic Rings', '') }}">
+          <input type="number"
+                 name="numaromaticrings_value"
+                 placeholder="Enter a value"
+                 step="0.01"
+                 value="{{ selected.get('Aromatic Rings', '') }}">
         </div>
       </div>
 
       <button type="submit">Submit</button>
     </form>
 
-  {% if selected %}    
-    <hr class="divider">
+    {% if selected %}
 
-    <section class="results">
-      <h6 class="subheader">Property Information</h6>
-      <ul>
-        {% for key, value in selected.items() %}
-          <li class="filter">{{ key }}: {{ value }}</li>
-        {% endfor %}
-      </ul>
-    </section>
+      <hr class="divider">
 
-    <hr class="divider">
+      <section class="results">
+        <h6 class="subheader">Property Information</h6>
+        <ul>
+          {% for key, value in selected.items() %}<li class="filter">{{ key }}: {{ value }}</li>{% endfor %}
+        </ul>
+      </section>
 
-    <section class="molecule-cards">
-      <h6 class="subheader">Top 30 Molecule Results</h6>
-      <div class="card-grid">
-        {% for i in range(30) %}
-        <div class="card">
-          <img src="{{ url_for('static', filename='favicon.svg') }}" alt="Molecule Image" width="150" height="150">
-          <p>Molecule Name {{ i + 1 }}</p>
-          <button type="button" class="info-btn" data-index="{{ i }}">More Info</button>
+      <hr class="divider">
+
+      <section class="molecule-cards">
+        <h6 class="subheader">Top 30 Molecule Results</h6>
+        <div class="card-grid">
+          {% if results is not none %}
+            {% for _, molecule in results.iterrows() %}
+              <div class="card">
+                <img src="{{ url_for("static", filename="favicon.svg") }}"
+                     alt="Molecule Image"
+                     width="150"
+                     height="150">
+                <p>{{ molecule['Name'] }}</p>
+                <button type="button" class="info-btn">More Info</button>
+              </div>
+            {% endfor %}
+          {% endif %}
         </div>
-        {% endfor %}
-      </div>
-    </section>
+      </section>
     {% endif %}
 
     <hr class="divider">
 
     <footer>
-      <img src="{{ url_for('static', filename='favicon.svg') }}" alt="Our Logo" width="50" height="50">
+      <img src="{{ url_for("static", filename="favicon.svg") }}"
+           alt="Our Logo"
+           width="50"
+           height="50">
       <p>Made by Kinase.</p>
     </footer>
 
-    <script>
+      <script>
     document.querySelectorAll('.checkbox-group input[type="checkbox"]').forEach(function(checkbox) {
       checkbox.addEventListener('change', function() {
         const numberInput = this.closest('.checkbox-group').querySelector('.number-input');
@@ -138,6 +180,6 @@
         }
       });
     });
-    </script>
-  </body>
-</html>
+      </script>
+    </body>
+  </html>
