@@ -1,29 +1,33 @@
-import numpy as np
 from rdkit import Chem
 from rdkit.Chem import Draw
 from rdkit.DataStructs.cDataStructs import ExplicitBitVect
-
+from rdkit.Chem import Crippen 
 import pandas as pd
+import numpy as np
 from sklearn.preprocessing import StandardScaler
 
-EXAMPLE_COMPOUNDS = [
-    # smiles, substructure fingerprint
-    "CCC(Cl)C(N)C1=CC=CC=C1",
-    "CCC(Cl)C(F)C1=CC=CC=C1",
-    "CCC(Cl)C(F)C1CCCCC1",
-    "CCC(Cl)C(N)C1CCCCC1",
-    "CCC(F)C(Cl)CC",
-    "CCC(F)C(N)CC",
-    "CCC(Cl)C(N)C1CCC2CCCCC2C1",
-]
 
-# Data loading & preparation (run once at module load or server startup)
+def calculate_lipophilicity(smiles: str) -> float:
+    if not isinstance(smiles, str) or not smiles.strip():
+        return np.nan
+    m = Chem.MolFromSmiles(smiles)
+    if m is None:
+        return np.nan
+    try:
+        return float(Crippen.MolLogP(m))
+    except Exception:
+        return np.nan
+    
+#Data loading and conversion to dataframe
 def load_molecule_database(csv_path: str) -> pd.DataFrame:
     """Read CSV, clean data, calculate properties for each molecule"""
-    # Read CSV
-    # Clean up values
-    # Calculate properties
-    # Return dataframe
+    df = pd.read_csv('original.csv', sep = ';', usecols = ['ChEMBL ID', 'Name', 'Synonyms', 'Molecular Weight','Polar Surface Area', 'Aromatic Rings', 'Heavy Atoms','Molecular Formula', 'Smiles'])
+    df['Lipophilicity'] = df['Smiles'].apply(calculate_lipophilicity)
+    print(f"Loaded {len(df)} molecules")
+    print(df.head())  # Show first 5 rows
+    print(f"\nColumns: {list(df.columns)}")
+    print(f"Shape: {df.shape}")
+    return df
 
 
 def calculate_properties(smiles: str) -> dict:

@@ -4,63 +4,99 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-          content="Demo application for Schrodinger Stack the Future 2026">
+          content="Kinase Schrodinger Stack the Future 2026">
     <meta name="keywords" content="hackathon schrodinger">
     <title>
 
       {% block title %}
-        Stack the Future 2026
+        MolecuFind
       {% endblock title %}
 
     </title>
     <link rel="icon"
           href='{{ url_for("static", filename="favicon.svg") }}'
           sizes="any">
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <style>
-      html, body {
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-      }
-    </style>
-
-    {% block styles %}
-    {% endblock styles %}
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   </head>
+
   <body>
-    <div class="w-100 h-100 overflow-auto d-flex flex-column justify-content-between">
-      <div class="container">
+    <header>
+      <img src="{{ url_for('static', filename='favicon.svg') }}" alt="Our Logo" width="50" height="50">
+      <h1>MolecuFind</h1>
+    </header>
 
-        {% block content %}
-        {% endblock content %}
+    <hr class="divider">
 
+    {% block content %}
+    {% endblock content %}
+    
+    <form method="post" action="{{ url_for('show_results') }}" class="select-form">
+      <div class="checkbox-group">
+        <label>
+          <input type="checkbox" name="amw" value="1">
+          Atomic Molecular Weight (AMW)
+        </label>
+        <div class="number-input">
+          <input type="number" name="amw_value" placeholder="Enter a value" step="0.01">
+        </div>
       </div>
-      <div>
-
-        {% block footer %}
-          <footer class="d-flex flex-column align-items-center fs-6 text-body-tertiary py-5">
-            <span>Stack the Future 2026 - New York, New York</span>
-            <span>Copyright &copy; Schrodinger Inc. 2026</span>
-          </footer>
-        {% endblock footer %}
-
+      <div class="checkbox-group">
+        <label>
+          <input type="checkbox" name="Crippen logP" value="2">
+          Crippen logP
+        </label>
+        <div class="number-input">
+          <input type="number" name="Clogp_value" placeholder="Enter a value" step="0.01">
+        </div>
       </div>
-    </div>
+      <div class="checkbox-group">
+        <label>
+          <input type="checkbox" name="Topological Polar Surface Area" value="3">
+          Topological Polar Surface Area (TPSA)
+        </label>
+        <div class="number-input">
+          <input type="number" name="TPSA" placeholder="Enter a value" step="0.01">
+        </div>
+      </div>
+      <div class="checkbox-group">
+        <label>
+          <input type="checkbox" name="Number of Heavy Atoms" value="4">
+          Number of Heavy Atoms
+        </label>
+        <div class="number-input">
+          <input type="number" name="numHeavyAtoms_value" placeholder="Enter a value" step="0.01">
+        </div>
+      </div>
+      <div class="checkbox-group">
+        <label>
+          <input type="checkbox" name="numAromaticRings " value="5">
+          Number of Aromatic Rings
+        </label>
+        <div class="number-input">
+          <input type="number" name="numaromaticrings_value" placeholder="Enter a value" step="0.01">
+        </div>
+      </div>
+
+      <button type="submit">Submit</button>
+    </form>
+
+    <footer>
+      <img src="{{ url_for('static', filename='favicon.svg') }}" alt="Our Logo" width="50" height="50">
+      <p>Made by Kinase.</p>
+    </footer>
+
     <script>
-      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-      const tooltipList = [...tooltipTriggerList].forEach((tooltipTriggerEl) => {
-        new bootstrap.Tooltip(tooltipTriggerEl)
+    document.querySelectorAll('.checkbox-group input[type="checkbox"]').forEach(function(checkbox) {
+      checkbox.addEventListener('change', function() {
+        const numberInput = this.closest('.checkbox-group').querySelector('.number-input');
+        if (this.checked) {
+          numberInput.style.display = 'block';
+          numberInput.querySelector('input').focus();
+        } else {
+          numberInput.style.display = 'none';
+        }
       });
+    });
     </script>
-
-    {% block scripts %}
-    {% endblock scripts %}
-
   </body>
 </html>
