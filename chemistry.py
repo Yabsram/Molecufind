@@ -10,6 +10,7 @@ from sklearn.preprocessing import StandardScaler
 from math import pi
 import matplotlib.pyplot as plt
 
+
 model = ADMETModel()
 def test_admet_model():
     test_smiles = ["CCOC(=O)C1(c2ccccc2)CCCN(C)CC1.O=C(O)CC(O)(CC(=O)O)C(=O)O", "CCOC(=O)C1(c2ccccc2)CCCN(C)CC1.O=C(O)CC(O)(CC(=O)O)C(=O)O"]
