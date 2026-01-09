@@ -8,6 +8,10 @@ body{
   font-family: Arial, sans-serif;
 }
 
+h3{
+  margin: 0;
+}
+
 header{
   display: flex;
   align-items: center;
@@ -140,6 +144,88 @@ ul{
 
 .card .info-btn:hover {
   background-color: #6949C9;
+}
+
+.popup-modal {
+  display: none; 
+  position: fixed;
+  top: 0; 
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.6);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.popup-content {
+  position: relative;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 450px;
+  max-width: 90%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+#close-popup {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+#popup-image {
+  margin-top: 30px;
+  max-width: 80%;
+  height: auto;
+}
+
+#popup-title {
+  font-size: 30px;
+  font-weight: bolder;
+  color: #009BCE;
+  margin: 0px;
+}
+
+.comparison-chart {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.column-title{
+  font-size: 20px;
+  color: #009BCE;
+  margin: 0px;
+  text-decoration: underline;
+}
+
+.comparison-column {
+  flex: 1;
+  min-width: 0;
+  background-color: #fff;
+  padding: 12px;
+  border-radius: 8px;
+  text-align: center;
+  max-width: 50%;
+  padding: 0px;
+}
+
+.inputted-info{
+  text-align: left;
+  padding: 0px 0px 0px 60px;
+  margin: 10px;
 }
 
 footer {
