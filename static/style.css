@@ -26,6 +26,18 @@ header img {
   width: 50px;
 }
 
+.header-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.header-link:hover {
+  cursor: pointer;
+}
+
 .divider {
   border: 0;
   height: 2px;
