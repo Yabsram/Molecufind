@@ -3,6 +3,7 @@ from rdkit.Chem import Draw
 from rdkit.DataStructs.cDataStructs import ExplicitBitVect
 from rdkit.Chem import Crippen 
 import pandas as pd
+import os, shutil
 import numpy as np
 from sklearn.preprocessing import StandardScaler
 
@@ -78,3 +79,29 @@ def get_top_similar_molecules(db_properties, selected_properties, n):
 
     # return top n results
     return sorted_top_results.head(n) 
+
+def show_images(dataframe):
+    folder_path = "images"
+    if os.path.exists(folder_path):
+        shutil.rmtree(folder_path)
+        os.makedirs(folder_path)
+    else:
+        os.makedirs(folder_path)
+
+    #d = {'cogl1': ["Paracetamol", "CC(C)CC1=CC=C(C=C1)C(C)C(=O)O", "two"], 'col2': ["Nicotine", "CN1CCCC1C2=CN=CC=C2", "two"]}
+    #df = pd.DataFrame(data=d)
+    df = dataframe
+
+    # Second column (index 1)
+    for col in df.columns:
+        name = df[col][0] #find out what index the name is stored at
+        structure = df[col][1] #find out what index the structure is stored at
+
+        mol = Chem.MolFromSmiles(structure)
+
+        # Save to file
+        filename = name + ".png"
+        img = Draw.MolToImage(mol)
+        filepath = os.path.join(folder_path, filename)
+        img.save(filepath)       
+    return
