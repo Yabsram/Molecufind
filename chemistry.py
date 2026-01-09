@@ -39,7 +39,6 @@ def plot_admet_radar_clean(smiles: str):
         'Soluble': (predictions['Solubility_AqSolDB'].values[0]+5)*20,
         'Non-Toxic': 100 - (predictions['AMES'].values[0] * 100),
         'Blood Brain Barrier Safe': 100 - (predictions['BBB_Martins'].values[0]*100),
-
     }
     
     categories = list(properties.keys())
@@ -55,11 +54,8 @@ def plot_admet_radar_clean(smiles: str):
     fig.patch.set_facecolor('white')
     ax.set_facecolor('white')
     
-    # Plot data with red color matching the image
     ax.plot(angles, values, 'o-', linewidth=2.5, color='#E74C3C', markersize=8)
     ax.fill(angles, values, alpha=0.3, color='#E74C3C')
-    
-    # Set the labels
     ax.set_xticks(angles[:-1])
     ax.set_xticklabels(categories, size=11, weight='bold')
     
@@ -68,7 +64,6 @@ def plot_admet_radar_clean(smiles: str):
     ax.set_yticks([0, 25, 50, 75, 100])
     ax.set_yticklabels(['0', '25', '50', '75', '100'], size=9, color='gray')
     
-    # Customize grid
     ax.grid(True, linewidth=0.5, color='gray', alpha=0.3)
     ax.spines['polar'].set_color('gray')
     ax.spines['polar'].set_linewidth(1.5)
@@ -82,9 +77,9 @@ def test_radar_chart():
     plt.savefig(output_file, dpi=300, bbox_inches='tight')
     plt.close(fig)
     
-if __name__ == "__main__":
-    test_radar_chart()
-    test_admet_model()
+# if __name__ == "__main__":
+#     test_radar_chart()
+#     test_admet_model()
     
 
 def calculate_lipophilicity(smiles: str) -> float:
