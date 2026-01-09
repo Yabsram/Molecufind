@@ -71,6 +71,18 @@ def plot_admet_radar_clean(smiles: str):
     plt.tight_layout()
     return fig
 
+def save_radar_chart(smiles: str, name: str, output_folder: str = "static/images"):
+    """Generate and save radar chart for a molecule."""
+    try:
+        fig = plot_admet_radar_clean(smiles)
+        if not os.path.exists(output_folder):
+            os.makedirs(output_folder)
+        output_file = os.path.join(output_folder, f"radar_{name}.png")
+        plt.savefig(output_file, dpi=150, bbox_inches='tight')
+        plt.close(fig)
+    except Exception as e:
+        print(f"Error generating radar chart for {name}: {e}")
+
 def test_radar_chart():
     smile = "CC[C@H]1C[C@H]2[C@@H]3CCC4=CC(=O)CC[C@@H]4[C@H]3CC[C@]2(C)[C@H]1O"
     fig = plot_admet_radar_clean(smile)
@@ -221,9 +233,12 @@ def show_images(dataframe):
 
         mol = Chem.MolFromSmiles(structure)
 
-        # Save to file
+        # Save molecule structure image to file
         filename = name + ".png"
         img = Draw.MolToImage(mol)
         filepath = os.path.join(folder_path, filename)
         img.save(filepath)
+        
+        # Generate and save radar chart
+        save_radar_chart(structure, name, folder_path)
     return
