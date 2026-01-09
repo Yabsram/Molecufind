@@ -18,7 +18,7 @@ def select_property():
 
     # Map filter display names to form field names
     filters = {
-        "Molecular Weight": ("amw", "amw_value"),
+        "Atomic Molecular Weight": ("amw", "amw_value"),
         "Lipophilicity": ("clogp", "clogp_value"),
         "Polar Surface Area": ("tpsa", "tpsa_value"),
         "Heavy Atoms": ("numHeavyAtoms", "numHeavyAtoms_value"),
