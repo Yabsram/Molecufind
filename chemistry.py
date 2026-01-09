@@ -4,7 +4,21 @@ from rdkit.DataStructs.cDataStructs import ExplicitBitVect
 from rdkit.Chem import Crippen 
 import pandas as pd
 import numpy as np
+from admet_ai import ADMETModel
 
+model = ADMETModel()
+def test_admet_model():
+    test_smiles = ["CCO"]
+    predictions = model.predict(smiles=test_smiles)
+    print(f"Number of properties predicted: {len(predictions.columns)}")
+    print(f"\nAvailable properties:\n{list(predictions.columns)}")
+    print(f"\nPredictions:\n{predictions}")
+    return predictions
+
+
+if __name__ == "__main__":
+    test_admet_model()
+    
 
 def calculate_lipophilicity(smiles: str) -> float:
     if not isinstance(smiles, str) or not smiles.strip():
