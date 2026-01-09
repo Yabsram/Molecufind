@@ -24,6 +24,7 @@ def load_molecule_database(csv_path: str) -> pd.DataFrame:
     """Read CSV, clean data, calculate properties for each molecule"""
     df = pd.read_csv('original.csv', sep = ';', usecols = ['ChEMBL ID', 'Name', 'Synonyms', 'Molecular Weight','Polar Surface Area', 'Aromatic Rings', 'Heavy Atoms','Molecular Formula', 'Smiles'])
     df['Lipophilicity'] = df['Smiles'].apply(calculate_lipophilicity)
+    df.dropna(how='any', inplace=True)
     print(f"Loaded {len(df)} molecules")
     print(df.head())  # Show first 5 rows
     print(f"\nColumns: {list(df.columns)}")
