@@ -4,63 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-          content="Demo application for Schrodinger Stack the Future 2026">
+          content="Kinase Schrodinger Stack the Future 2026">
     <meta name="keywords" content="hackathon schrodinger">
     <title>
 
       {% block title %}
-        Stack the Future 2026
+        MolecuFind
       {% endblock title %}
 
     </title>
     <link rel="icon"
           href='{{ url_for("static", filename="favicon.svg") }}'
           sizes="any">
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <style>
-      html, body {
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-      }
-    </style>
-
-    {% block styles %}
-    {% endblock styles %}
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   </head>
+
   <body>
-    <div class="w-100 h-100 overflow-auto d-flex flex-column justify-content-between">
-      <div class="container">
+    <header>
+      <img src="{{ url_for('static', filename='favicon.svg') }}" alt="Our Logo">
+      <h1>MolecuFind</h1>
+    </header>
 
-        {% block content %}
-        {% endblock content %}
-
-      </div>
-      <div>
-
-        {% block footer %}
-          <footer class="d-flex flex-column align-items-center fs-6 text-body-tertiary py-5">
-            <span>Stack the Future 2026 - New York, New York</span>
-            <span>Copyright &copy; Schrodinger Inc. 2026</span>
-          </footer>
-        {% endblock footer %}
-
-      </div>
-    </div>
-    <script>
-      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-      const tooltipList = [...tooltipTriggerList].forEach((tooltipTriggerEl) => {
-        new bootstrap.Tooltip(tooltipTriggerEl)
-      });
-    </script>
-
-    {% block scripts %}
-    {% endblock scripts %}
-
+    {% block content %}
+    {% endblock %}
+    
+    <footer>
+      <img src="{{ url_for('static', filename='favicon.svg') }}" alt="Our Logo">
+      <p>Made by Kinase.</p>
+    </footer>
   </body>
 </html>

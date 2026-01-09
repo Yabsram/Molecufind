@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}
+Selection Page
+{% endblock title %}
+
+{% block content %}
+  <h6 class="subheader"> Select your Properties </h6>
+
+   <form method="post" action="/submit-selection" class="select-form">
+    <div>
+      <label>
+        <input type="checkbox" name="amw" value="1">
+        amw
+      </label>
+    </div>
+    <div>
+      <label>
+        <input type="checkbox" name="CrippenClogP" value="2">
+        CrippenClogP
+      </label>
+    </div>
+    <div>
+      <label>
+        <input type="checkbox" name="TPSA" value="3">
+        TPSA
+      </label>
+    </div>
+    <div>
+      <label>
+        <input type="checkbox" name="NumHeavyAtoms" value="4">
+        NumHeavyAtoms
+      </label>
+    </div>
+    <div>
+      <label>
+        <input type="checkbox" name="NumAromaticRings " value="5">
+        NumAromaticRings
+      </label>
+    </div>
+
+    <button type="submit">Submit</button>
+  </form>
+{% endblock content %}
