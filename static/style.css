@@ -60,7 +60,7 @@ input[type="checkbox"] {
 .number-input input[type="number"]:focus {
   outline: none;
   border: 2px solid #6949C9;
-  box-shadow: 0 0 3px #6949C9;);
+  box-shadow: 0 0 3px #6949C9;
 }
 
 button[type="submit"] {
@@ -72,12 +72,69 @@ button[type="submit"] {
   font-size: 20px;
 }
 
+.checkbox-group .number-input {
+  display: none;
+}
+
+.checkbox-group.checked .number-input {
+  display: block;
+}
+
+.filter{
+  font-size: 18px;
+  margin: 0px 150px 0px 150px;
+}
+
+ul{
+  margin: 20px 0px;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+  margin: 20px 90px 20px 90px;
+}
+
+.card {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+.card img {
+  display: block;
+  margin: 8px auto 8px auto;
+}
+
+.card p {
+  margin: 8px 0px 8px 0px;
+  font-weight: bold;
+  color: #009BCE;
+}
+
+.info-btn {
+  width: 100%;
+  margin: 8px auto 0;
+  padding: 4px 8px;
+  cursor: pointer;
+  color: #fff;
+  background-color: #009BCE;
+  border: none;
+  border-radius: 10px;
+}
+
+.card .info-btn:hover {
+  background-color: #6949C9;
+}
+
 footer {
   display: flex;
   align-items:center;
   justify-content: space-between;
   padding: 20px;
-  border-top: 2px solid #009BCE;
 }
 
 footer img {
