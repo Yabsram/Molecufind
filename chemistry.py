@@ -190,8 +190,11 @@ def calculate_similarity_score(selected_properties, db_properties):
     # creates more separation between similar and different molecules
     similarity_scores = np.exp(-distances / 2)
 
+    # convert to percentage and round to 2 decimal places
+    similarity_percentages = np.round(similarity_scores * 100, 2)
+
     db_results = db_properties.copy()
-    db_results["similarity_score"] = similarity_scores
+    db_results["similarity_score"] = similarity_percentages
 
     return db_results
 

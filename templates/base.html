@@ -146,7 +146,10 @@
           {% if results is not none %}
             {% for _, molecule in results.iterrows() %}
               <div class="card">
-                <img src="{{ url_for('static', filename='images/' + molecule['Name'] + '.png') }}" alt="{{ molecule['Name'] }} +  Image" width="150" height="150">
+                <img src="{{ url_for('static', filename='images/' + molecule['Name'] + '.png') }}"
+                     alt="{{ molecule['Name'] }} +  Image"
+                     width="150"
+                     height="150">
                 <p>{{ molecule['Name'] }}</p>
                 <button type="button"
                         class="info-btn"
@@ -171,7 +174,8 @@
           <img id="radar-chart"
                src="{{ url_for('static', filename='favicon.svg') }}"
                alt="ADMET Radar Chart"
-               style="max-width: 300px; height: auto;">
+               style="max-width: 300px;
+                      height: auto">
           <div class="comparison-chart">
             <div class="comparison-column">
               <p class="column-title">Inputted Values</p>
