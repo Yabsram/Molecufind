@@ -47,7 +47,10 @@ def calculate_similarity_score(selected_properties, db_properties):
     # ensure selected_properties is a df, make into df
     if not isinstance(selected_properties, pd.DataFrame):
         selected_properties = pd.DataFrame([selected_properties])
-    selected_extracted = selected_properties[property_cols]
+
+    # make sure all expected columns exist
+    # fill missing with NaN so we can still run
+    selected_extracted = selected_properties.reindex(columns=property_cols)
 
     # normalize data frames
     scaler = StandardScaler()
